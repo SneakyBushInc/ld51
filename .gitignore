@@ -1,4 +1,5 @@
 build/
 bin/
+.vs/
 dev.ini
 *.sublime-workspace
