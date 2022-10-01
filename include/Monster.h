@@ -7,6 +7,7 @@
 #define __MONSTER_H__
 
 #include "Character.h"
+#include "Player.h"
 
 /** Monster Class
  */
@@ -26,7 +27,7 @@ protected:
 
 private:
 
-                void            SelectTarget();
+                Player *        SelectTarget();
 
                 orxU64          u64Target;
                 orxFLOAT        fTargetHysteresis;

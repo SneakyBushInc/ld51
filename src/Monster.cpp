@@ -4,7 +4,6 @@
  */
 
 #include "Monster.h"
-#include "Player.h"
 
 void Monster::Die()
 {
@@ -35,10 +34,33 @@ void Monster::Update(const orxCLOCK_INFO &_rstInfo)
         // Push config section
         PushConfigSection();
 
-        // Select target
-        SelectTarget();
+        // Select our input set
+        const orxSTRING zInputSet = orxInput_GetCurrentSet();
+        orxInput_SelectSet(orxConfig_GetCurrentSection());
 
-        //! TODO: AI
+        // Select target
+        orxVECTOR vMove = {};
+        if(Player *poTarget = SelectTarget())
+        {
+            // Move
+            orxVECTOR vPos, vTargetPos;
+            orxVector_Sub(&vMove, &poTarget->GetPosition(vTargetPos, orxTRUE), &GetPosition(vPos, orxTRUE));
+            if(orxVector_GetSquareSize(&vMove) >= orxFLOAT_1)
+            {
+                orxVector_Normalize(&vMove, &vMove);
+            }
+            else
+            {
+                orxVector_Copy(&vMove, &orxVECTOR_0);
+            }
+        }
+        orxInput_SetValue("MoveLeft", orxMath_Abs(orxMIN(vMove.fX, orxFLOAT_0)));
+        orxInput_SetValue("MoveRight", orxMAX(vMove.fX, orxFLOAT_0));
+        orxInput_SetValue("MoveUp", orxMath_Abs(orxMIN(vMove.fY, orxFLOAT_0)));
+        orxInput_SetValue("MoveDown", orxMAX(vMove.fY, orxFLOAT_0));
+
+        // Restore previous input set
+        orxInput_SelectSet(zInputSet);
 
         // Pop config section
         PopConfigSection();
@@ -46,13 +68,13 @@ void Monster::Update(const orxCLOCK_INFO &_rstInfo)
     Character::Update(_rstInfo);
 }
 
-void Monster::SelectTarget()
+Player *Monster::SelectTarget()
 {
     ld51 &roGame = ld51::GetInstance();
 
     orxVECTOR vPos, vTargetPos;
     GetPosition(vPos, orxTRUE);
-    ScrollObject *poBestTarget = roGame.GetObject(u64Target);
+    Player *poBestTarget = roGame.GetObject<Player>(u64Target);
     orxFLOAT fBestDistance = poBestTarget ? orxVector_GetSquareDistance(&poBestTarget->GetPosition(vTargetPos, orxTRUE), &vPos) : orxFLOAT_MAX;
 
     for(Player *poTarget = roGame.GetNextObject<Player>();
@@ -72,4 +94,6 @@ void Monster::SelectTarget()
     }
 
     u64Target = poBestTarget ? poBestTarget->GetGUID() : orxU64_UNDEFINED;
+
+    return poBestTarget;
 }
