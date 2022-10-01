@@ -25,6 +25,11 @@ protected:
 
 
 private:
+
+                void            SelectTarget();
+
+                orxU64          u64Target;
+                orxFLOAT        fTargetHysteresis;
 };
 
 #endif // __MONSTER_H__

@@ -15,6 +15,7 @@ class Character : public Object
 public:
 
                 void            Die();
+                orxBOOL         IsDead() const                  {return bDead;}
                 void            Revive();
                 void            SetHealth(orxFLOAT _fHealth);
                 orxFLOAT        GetHealth() const               {return fHealth;}
