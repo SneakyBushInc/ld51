@@ -25,6 +25,8 @@ protected:
 
 
 private:
+
+                orxBOOL         bNew;
 };
 
 #endif // __PLAYER_H__

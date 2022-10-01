@@ -17,6 +17,8 @@ public:
                 void            Die();
                 void            Revive();
                 void            SetHealth(orxFLOAT _fHealth);
+                orxFLOAT        GetHealth() const               {return fHealth;}
+                orxFLOAT        GetMaxHealth() const            {return fMaxHealth;}
 
 
 protected:

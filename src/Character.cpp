@@ -9,6 +9,7 @@ void Character::Die()
 {
     bDead = orxTRUE;
     SetHealth(orxFLOAT_0);
+    SetSpeed(orxVECTOR_0);
     SetAnim("Death");
 }
 
@@ -58,8 +59,22 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         orxVECTOR vMove = {orxInput_GetValue("MoveRight") - orxInput_GetValue("MoveLeft"), orxInput_GetValue("MoveDown") - orxInput_GetValue("MoveUp")};
         if(!orxVector_IsNull(&vMove))
         {
-            zAnim = "Walk";
-            orxVector_Mulf(&vMove, &vMove, orxConfig_GetFloat("WalkSpeed"));
+            zAnim = "Run";
+            orxVector_Mulf(&vMove, &vMove, orxConfig_GetFloat("RunSpeed"));
+            if(vMove.fX < orxFLOAT_0)
+            {
+                orxVECTOR vScale;
+                GetScale(vScale);
+                vScale.fX = -orxMath_Abs(vScale.fX);
+                SetScale(vScale);
+            }
+            else if(vMove.fX > orxFLOAT_0)
+            {
+                orxVECTOR vScale;
+                GetScale(vScale);
+                vScale.fX = orxMath_Abs(vScale.fX);
+                SetScale(vScale);
+            }
         }
         SetSpeed(vMove);
 
@@ -71,6 +86,10 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
 
         // Pop config section
         PopConfigSection();
+    }
+    else
+    {
+        SetSpeed(orxVECTOR_0);
     }
 
     Object::Update(_rstInfo);
