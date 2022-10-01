@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{73CA69E2-BDEA-F64E-AA85-1D3C5CBD451E}</ProjectGuid>
+    <ProjectGuid>{DEB83635-9291-8B41-B44C-964E6EF2BF56}</ProjectGuid>
     <RootNamespace>ld51</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -365,10 +365,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\Character.h" />
     <ClInclude Include="..\..\..\include\ld51.h" />
+    <ClInclude Include="..\..\..\include\Monster.h" />
     <ClInclude Include="..\..\..\include\Object.h" />
     <ClInclude Include="..\..\..\include\orxBundle.h" />
     <ClInclude Include="..\..\..\include\orxMod.h" />
+    <ClInclude Include="..\..\..\include\Player.h" />
     <ClInclude Include="..\..\..\include\pocketmod\pocketmod.h" />
     <ClInclude Include="..\..\..\include\Scroll\Scroll.h" />
     <ClInclude Include="..\..\..\include\Scroll\ScrollBase.h" />
@@ -376,9 +379,15 @@
     <ClInclude Include="..\..\..\include\Scroll\ScrollObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Character.cpp">
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ld51.cpp">
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Monster.cpp">
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Object.cpp">
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Player.cpp">
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

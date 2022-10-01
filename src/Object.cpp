@@ -1,6 +1,6 @@
 /**
  * @file Object.cpp
- * @date 30-Sep-2022
+ * @date 1-Oct-2022
  */
 
 #include "Object.h"
@@ -8,6 +8,7 @@
 void Object::OnCreate()
 {
     orxConfig_SetBool("IsObject", orxTRUE);
+    bDead = orxFALSE;
 }
 
 void Object::OnDelete()
@@ -16,4 +17,9 @@ void Object::OnDelete()
 
 void Object::Update(const orxCLOCK_INFO &_rstInfo)
 {
+}
+
+orxBOOL Object::OnShader(orxSHADER_EVENT_PAYLOAD &_rstPayload)
+{
+    return orxTRUE;
 }

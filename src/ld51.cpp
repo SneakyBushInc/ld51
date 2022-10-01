@@ -8,6 +8,9 @@
 #undef __SCROLL_IMPL__
 
 #include "Object.h"
+#include "Character.h"
+#include "Monster.h"
+#include "Player.h"
 
 #define orxBUNDLE_IMPL
 #include "orxBundle.h"
@@ -25,6 +28,8 @@ __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 
 #endif // __orxMSVC__
 
+static orxBOOL sbRestart = orxTRUE;
+
 /** Update function, it has been registered to be called every tick of the core clock
  */
 void ld51::Update(const orxCLOCK_INFO &_rstInfo)
@@ -32,8 +37,27 @@ void ld51::Update(const orxCLOCK_INFO &_rstInfo)
     // Should quit?
     if(orxInput_IsActive("Quit"))
     {
+        // Should restart?
+        sbRestart = orxInput_HasBeenActivated("Reset");
+
         // Send close event
         orxEvent_SendShort(orxEVENT_TYPE_SYSTEM, orxSYSTEM_EVENT_CLOSE);
+    }
+    // Screenshot?
+    else if(orxInput_HasBeenActivated("Screenshot"))
+    {
+        orxScreenshot_Capture();
+    }
+    // Reset?
+    else if(orxInput_HasBeenActivated("Reset"))
+    {
+        for(ScrollObject *poObject = GetNextObject();
+            poObject;
+            poObject = GetNextObject())
+        {
+            DeleteObject(poObject);
+        }
+        CreateObject("Select");
     }
 }
 
@@ -41,11 +65,6 @@ void ld51::Update(const orxCLOCK_INFO &_rstInfo)
  */
 orxSTATUS ld51::Init()
 {
-    // Display a small hint in console
-    orxLOG("\n* This template project creates a simple scene"
-    "\n* You can play with the config parameters in ../data/config/ld51.ini"
-    "\n* After changing them, relaunch the executable to see the changes.");
-
     // Initialize MOD support
     orxMod_Init();
 
@@ -56,8 +75,14 @@ orxSTATUS ld51::Init()
         return orxSTATUS_SUCCESS;
     }
 
-    // Create the scene
-    CreateObject("Scene");
+    // Push game section
+    orxConfig_PushSection("Game");
+
+    // Disable main viewport
+    orxViewport_Enable(GetMainViewport(), orxFALSE);
+
+    // Go to title
+    CreateObject("Title");
 
     // Done!
     return orxSTATUS_SUCCESS;
@@ -88,8 +113,10 @@ void ld51::Exit()
  */
 void ld51::BindObjects()
 {
-    // Bind the Object class to the Object config section
     ScrollBindObject<Object>("Object");
+    ScrollBindObject<Character>("Character");
+    ScrollBindObject<Monster>("Monster");
+    ScrollBindObject<Player>("Player");
 }
 
 /** Bootstrap function, it is called before config is initialized, allowing for early resource storage definitions
@@ -111,8 +138,15 @@ orxSTATUS ld51::Bootstrap() const
  */
 int main(int argc, char **argv)
 {
-    // Execute our game
-    ld51::GetInstance().Execute(argc, argv);
+    // Should restart?
+    while(sbRestart)
+    {
+        // Clear restart
+        sbRestart = orxFALSE;
+
+        // Execute our game
+        ld51::GetInstance().Execute(argc, argv);
+    }
 
     // Done!
     return EXIT_SUCCESS;

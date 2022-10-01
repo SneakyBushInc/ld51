@@ -1,6 +1,6 @@
 /**
  * @file Object.h
- * @date 30-Sep-2022
+ * @date 1-Oct-2022
  */
 
 #ifndef __OBJECT_H__
@@ -14,12 +14,18 @@ class Object : public ScrollObject
 {
 public:
 
+    virtual     void            Die()               {bDead = orxTRUE;}
+
+                orxBOOL         bDead;
+
 
 protected:
 
                 void            OnCreate();
                 void            OnDelete();
                 void            Update(const orxCLOCK_INFO &_rstInfo);
+
+                orxBOOL         OnShader(orxSHADER_EVENT_PAYLOAD &_rstPayload);
 
 
 private:

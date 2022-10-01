@@ -2,25 +2,25 @@
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{B5A40B79-9162-7645-B663-EF8928A19A6A}</UniqueIdentifier>
+      <UniqueIdentifier>{51CA928E-59B9-8548-8465-BC32C81436FA}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{D78C9658-4F5A-3B4F-A10D-5F5C8061F5FB}</UniqueIdentifier>
+      <UniqueIdentifier>{CCC6554D-149B-D448-A9EA-CAAD69056D7E}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\pocketmod">
-      <UniqueIdentifier>{BDB9540E-6FFF-354D-9C7D-D9807F4EF919}</UniqueIdentifier>
+      <UniqueIdentifier>{0312B5A5-F804-5F41-8FD4-BBE9B9469029}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\Scroll">
-      <UniqueIdentifier>{D1F5335D-3411-1944-9B8D-5059F5C70E90}</UniqueIdentifier>
+      <UniqueIdentifier>{2793E4E4-CDF4-2F45-99BA-0E919C3E94C0}</UniqueIdentifier>
     </Filter>
     <Filter Include="inline">
-      <UniqueIdentifier>{D1EC4D92-3019-2C49-871E-D08DEBEAB229}</UniqueIdentifier>
+      <UniqueIdentifier>{2750190D-0383-A34F-9A93-6F5F70529690}</UniqueIdentifier>
     </Filter>
     <Filter Include="bundle">
-      <UniqueIdentifier>{C5B1B876-D2CE-C54D-A461-6C12B0E5A543}</UniqueIdentifier>
+      <UniqueIdentifier>{EC97E497-5776-AD44-B724-EF9B9AFC1494}</UniqueIdentifier>
     </Filter>
     <Filter Include="config">
-      <UniqueIdentifier>{320A88B8-A7D5-0A42-9607-094C486F0B58}</UniqueIdentifier>
+      <UniqueIdentifier>{21E542BA-E6F2-884E-A6AD-CAC607EFE6EA}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,7 +56,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\Character.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ld51.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Monster.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\Object.h">
@@ -66,6 +72,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\orxMod.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Player.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\pocketmod\pocketmod.h">
@@ -85,10 +94,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Character.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ld51.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Monster.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Object.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
