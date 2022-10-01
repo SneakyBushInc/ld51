@@ -2,25 +2,31 @@
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{51CA928E-59B9-8548-8465-BC32C81436FA}</UniqueIdentifier>
+      <UniqueIdentifier>{01DE64EE-A6CF-0245-867D-B0B932794721}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{CCC6554D-149B-D448-A9EA-CAAD69056D7E}</UniqueIdentifier>
+      <UniqueIdentifier>{DDF29F28-4D51-4D4C-83A2-76002E66F03D}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\pocketmod">
-      <UniqueIdentifier>{0312B5A5-F804-5F41-8FD4-BBE9B9469029}</UniqueIdentifier>
+      <UniqueIdentifier>{BB7450BA-A3EB-414B-8B4A-5FD92CACFF7A}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\Scroll">
-      <UniqueIdentifier>{2793E4E4-CDF4-2F45-99BA-0E919C3E94C0}</UniqueIdentifier>
+      <UniqueIdentifier>{0F954785-4076-1C45-AB3E-5F8AE51BB20C}</UniqueIdentifier>
     </Filter>
     <Filter Include="inline">
-      <UniqueIdentifier>{2750190D-0383-A34F-9A93-6F5F70529690}</UniqueIdentifier>
+      <UniqueIdentifier>{5E8471E6-E88C-8744-9BB8-F898BAAC781B}</UniqueIdentifier>
     </Filter>
     <Filter Include="bundle">
-      <UniqueIdentifier>{EC97E497-5776-AD44-B724-EF9B9AFC1494}</UniqueIdentifier>
+      <UniqueIdentifier>{99EC6FE4-E0DE-2F42-AE9A-7A58093776F4}</UniqueIdentifier>
     </Filter>
     <Filter Include="config">
-      <UniqueIdentifier>{21E542BA-E6F2-884E-A6AD-CAC607EFE6EA}</UniqueIdentifier>
+      <UniqueIdentifier>{2EC5F0A2-A44B-7845-996D-80293D988FA1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{7F45E9E3-EE58-2A42-AE26-1B2D08BBDB50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\resource">
+      <UniqueIdentifier>{75F72891-2259-3647-95E5-E10782E00922}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,5 +115,10 @@
     <ClCompile Include="..\..\..\src\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\data\resource\ld51.rc">
+      <Filter>data\resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

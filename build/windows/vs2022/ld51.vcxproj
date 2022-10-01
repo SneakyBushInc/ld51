@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DEB83635-9291-8B41-B44C-964E6EF2BF56}</ProjectGuid>
+    <ProjectGuid>{C1AD4AE9-D8E2-104D-B656-E36957ED9B10}</ProjectGuid>
     <RootNamespace>ld51</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -401,6 +401,9 @@
     <None Include="..\..\..\data\config\ld51d.ini" />
     <None Include="..\..\..\data\config\ld51p.ini" />
     <None Include="..\..\..\data\config\SettingsTemplate.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\data\resource\ld51.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
