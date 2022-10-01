@@ -15,6 +15,8 @@ class Character : public Object
 public:
 
                 void            Die();
+                void            Revive();
+                void            SetHealth(orxFLOAT _fHealth);
 
 
 protected:
@@ -24,9 +26,12 @@ protected:
                 void            Update(const orxCLOCK_INFO &_Info);
 
 
+                orxBOOL         bDead;
+
+
 private:
 
-                orxFLOAT        fHealth;
+                orxFLOAT        fHealth, fMaxHealth;
 };
 
 #endif // __CHARACTER_H__

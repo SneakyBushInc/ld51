@@ -7,6 +7,7 @@
 
 void Player::Die()
 {
+    Character::Die();
 }
 
 void Player::OnCreate()
@@ -18,6 +19,7 @@ void Player::OnCreate()
 
 void Player::OnDelete()
 {
+    Character::OnDelete();
 }
 
 void Player::Update(const orxCLOCK_INFO &_rstInfo)
@@ -32,4 +34,5 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
         // Pop config section
         PopConfigSection();
     }
+    Character::Update(_rstInfo);
 }

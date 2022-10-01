@@ -8,7 +8,6 @@
 void Object::OnCreate()
 {
     orxConfig_SetBool("IsObject", orxTRUE);
-    bDead = orxFALSE;
 }
 
 void Object::OnDelete()

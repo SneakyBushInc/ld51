@@ -7,6 +7,7 @@
 
 void Monster::Die()
 {
+    Character::Die();
 }
 
 void Monster::OnCreate()
@@ -21,6 +22,7 @@ void Monster::OnCreate()
 
 void Monster::OnDelete()
 {
+    Character::OnDelete();
 }
 
 void Monster::Update(const orxCLOCK_INFO &_rstInfo)
@@ -35,4 +37,5 @@ void Monster::Update(const orxCLOCK_INFO &_rstInfo)
         // Pop config section
         PopConfigSection();
     }
+    Character::Update(_rstInfo);
 }

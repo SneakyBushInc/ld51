@@ -14,10 +14,6 @@ class Object : public ScrollObject
 {
 public:
 
-    virtual     void            Die()               {bDead = orxTRUE;}
-
-                orxBOOL         bDead;
-
 
 protected:
 

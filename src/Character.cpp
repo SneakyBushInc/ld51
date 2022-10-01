@@ -7,6 +7,23 @@
 
 void Character::Die()
 {
+    bDead = orxTRUE;
+    SetHealth(orxFLOAT_0);
+    SetAnim("Death");
+}
+
+void Character::Revive()
+{
+    bDead = orxFALSE;
+    PushConfigSection();
+    SetHealth(orxConfig_GetFloat("ReviveHealth"));
+    PopConfigSection();
+    SetAnim("Revive");
+}
+
+void Character::SetHealth(orxFLOAT _fHealth)
+{
+    fHealth = orxCLAMP(_fHealth, orxFLOAT_0, fMaxHealth);
 }
 
 void Character::OnCreate()
@@ -14,6 +31,7 @@ void Character::OnCreate()
     // Init variables
     Object::OnCreate();
     orxConfig_SetBool("IsCharacter", orxTRUE);
+    fHealth = fMaxHealth = orxConfig_GetFloat("Health");
 
     // Enable our input set
     orxInput_EnableSet(orxConfig_GetCurrentSection(), orxTRUE);
@@ -21,6 +39,7 @@ void Character::OnCreate()
 
 void Character::OnDelete()
 {
+    Object::OnDelete();
 }
 
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
@@ -53,4 +72,6 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         // Pop config section
         PopConfigSection();
     }
+
+    Object::Update(_rstInfo);
 }
