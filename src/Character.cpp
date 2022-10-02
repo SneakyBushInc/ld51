@@ -123,7 +123,7 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         SetSpeed(vMove);
 
         // Update anim
-        SetAnim(zAnim, orxFALSE, orxTRUE);
+        SetAnim(zAnim);
 
         // Restore previous input set
         orxInput_SelectSet(zInputSet);

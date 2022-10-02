@@ -39,7 +39,7 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
             poNewPlayer->bDead = bDead;
             poNewPlayer->SetPosition(GetPosition(vTemp));
             poNewPlayer->SetScale(GetScale(vTemp));
-            poNewPlayer->SetAnim(orxObject_GetCurrentAnim(GetOrxObject()), orxTRUE, orxTRUE);
+            poNewPlayer->SetAnim(orxObject_GetCurrentAnim(GetOrxObject()), orxTRUE);
             SetLifeTime(orxFLOAT_0);
         }
         else
