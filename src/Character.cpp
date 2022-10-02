@@ -56,16 +56,21 @@ void Character::OnDelete()
 
 orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal)
 {
-    _poCollider->PushConfigSection();
-    if(orxConfig_GetBool("SingleHit"))
+    // Still active?
+    if(_poCollider->GetLifeTime() != orxFLOAT_0)
     {
-        SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
+        _poCollider->PushConfigSection();
+        if(orxConfig_GetBool("SingleHit"))
+        {
+            SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
+            _poCollider->SetLifeTime(orxFLOAT_0);
+        }
+        else
+        {
+            fDamage += orxConfig_GetFloat("Damage");
+        }
+        _poCollider->PopConfigSection();
     }
-    else
-    {
-        fDamage += orxConfig_GetFloat("Damage");
-    }
-    _poCollider->PopConfigSection();
 
     return Object::OnCollide(_poCollider, _pstPart, _pstColliderPart, _rvPosition, _rvNormal);
 }
