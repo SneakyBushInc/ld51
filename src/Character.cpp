@@ -65,6 +65,20 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
             if(orxConfig_GetBool("SingleHit"))
             {
                 SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
+                orxFLOAT fKnockback = orxConfig_GetFloat("Knockback");
+                if(fKnockback > orxFLOAT_0)
+                {
+                    orxVECTOR vKnockback, vPos, vColliderPos;
+                    orxVector_Add(&vPos,
+                                  &vPos,
+                                  orxVector_Mulf(&vKnockback,
+                                                 orxVector_Normalize(&vKnockback,
+                                                                     orxVector_Sub(&vKnockback,
+                                                                                   &GetPosition(vPos, orxTRUE),
+                                                                                   &_poCollider->GetPosition(vColliderPos, orxTRUE))),
+                                                 fKnockback));
+                     SetPosition(vPos);
+                }
                 _poCollider->SetLifeTime(orxFLOAT_0);
             }
             else

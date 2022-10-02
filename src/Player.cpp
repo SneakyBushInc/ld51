@@ -83,6 +83,12 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
         // Pop config section
         PopConfigSection();
     }
-    Character::Update(_rstInfo);
-    bNew = orxFALSE;
+    if(!bNew)
+    {
+        Character::Update(_rstInfo);
+    }
+    else
+    {
+        bNew = orxFALSE;
+    }
 }
