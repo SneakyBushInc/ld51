@@ -133,6 +133,17 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
             }
         }
 
+        // Action1?
+        if(orxInput_HasBeenActivated("Action1"))
+        {
+            zAnim = "Action1";
+        }
+        // Action2?
+        if(orxInput_HasBeenActivated("Action2"))
+        {
+            zAnim = "Action2";
+        }
+
         // Update anim
         SetAnim(zAnim);
 
