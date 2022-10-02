@@ -16,9 +16,8 @@ void Player::OnCreate()
     Character::OnCreate();
     bNew = orxTRUE;
     orxConfig_SetBool("IsPlayer", orxTRUE);
-    orxConfig_SetString("Class", orxConfig_GetParent(orxConfig_GetCurrentSection()));
 }
-    
+
 void Player::OnDelete()
 {
     Character::OnDelete();
@@ -34,9 +33,13 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
         // Cycle?
         if(!bNew && orxInput_HasBeenActivated("Cycle"))
         {
+            orxVECTOR vTemp;
             Player *poNewPlayer = ld51::GetInstance().CreateObject<Player>(GetModelName());
             poNewPlayer->SetHealth(GetHealth());
             poNewPlayer->bDead = bDead;
+            poNewPlayer->SetPosition(GetPosition(vTemp));
+            poNewPlayer->SetScale(GetScale(vTemp));
+            poNewPlayer->SetAnim(orxObject_GetCurrentAnim(GetOrxObject()), orxTRUE, orxTRUE);
             SetLifeTime(orxFLOAT_0);
         }
 
