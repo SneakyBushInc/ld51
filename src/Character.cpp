@@ -60,7 +60,7 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         if(!orxVector_IsNull(&vMove))
         {
             zAnim = "Run";
-            orxVector_Mulf(&vMove, &vMove, orxConfig_GetFloat("RunSpeed"));
+            orxVector_Mulf(&vMove, orxVector_Normalize(&vMove, &vMove), orxConfig_GetFloat("RunSpeed"));
             if(vMove.fX < orxFLOAT_0)
             {
                 orxVECTOR vScale;

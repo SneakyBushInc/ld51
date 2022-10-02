@@ -42,6 +42,13 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
             poNewPlayer->SetAnim(orxObject_GetCurrentAnim(GetOrxObject()), orxTRUE, orxTRUE);
             SetLifeTime(orxFLOAT_0);
         }
+        else
+        {
+            // Revive?
+            if(orxInput_HasBeenActivated("Revive"))
+            {
+            }
+        }
 
         // Pop config section
         PopConfigSection();
