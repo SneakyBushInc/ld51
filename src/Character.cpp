@@ -15,16 +15,26 @@ void Character::Die()
 
 void Character::Revive()
 {
-    bDead = orxFALSE;
-    PushConfigSection();
-    SetHealth(orxConfig_GetFloat("ReviveHealth"));
-    PopConfigSection();
-    SetAnim("Revive");
+    if(bDead)
+    {
+        bDead = orxFALSE;
+        PushConfigSection();
+        SetHealth(orxConfig_GetFloat("ReviveHealth"));
+        PopConfigSection();
+        SetAnim("Revive");
+    }
 }
 
 void Character::SetHealth(orxFLOAT _fHealth)
 {
-    fHealth = orxCLAMP(_fHealth, orxFLOAT_0, fMaxHealth);
+    if(!bDead)
+    {
+        fHealth = orxCLAMP(_fHealth, orxFLOAT_0, fMaxHealth);
+        if(fHealth == orxFLOAT_0)
+        {
+            Die();
+        }
+    }
 }
 
 void Character::OnCreate()
@@ -33,6 +43,7 @@ void Character::OnCreate()
     Object::OnCreate();
     orxConfig_SetBool("IsCharacter", orxTRUE);
     fHealth = fMaxHealth = orxConfig_GetFloat("Health");
+    fDamage = orxFLOAT_0;
 
     // Enable our input set
     orxInput_EnableSet(orxConfig_GetCurrentSection(), orxTRUE);
@@ -43,8 +54,41 @@ void Character::OnDelete()
     Object::OnDelete();
 }
 
+orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal)
+{
+    _poCollider->PushConfigSection();
+    if(orxConfig_GetBool("SingleHit"))
+    {
+        SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
+    }
+    else
+    {
+        fDamage += orxConfig_GetFloat("Damage");
+    }
+    _poCollider->PopConfigSection();
+
+    return Object::OnCollide(_poCollider, _pstPart, _pstColliderPart, _rvPosition, _rvNormal);
+}
+
+orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
+{
+    _poCollider->PushConfigSection();
+    if(!orxConfig_GetBool("SingleHit"))
+    {
+        fDamage -= orxConfig_GetFloat("Damage");
+    }
+    _poCollider->PopConfigSection();
+
+    return Object::OnSeparate(_poCollider);
+}
+
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
 {
+    if(!bDead && fDamage)
+    {
+        SetHealth(GetHealth() - (_rstInfo.fDT * fDamage));
+    }
+
     if(!bDead)
     {
         // Push config section

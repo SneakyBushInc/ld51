@@ -120,9 +120,6 @@ protected:
                                         ScrollObject();
                 virtual                ~ScrollObject();
 
-
-private:
-
   virtual       void                    OnCreate();
   virtual       void                    OnDelete();
   virtual       void                    Update(const orxCLOCK_INFO &_rstInfo);
@@ -139,6 +136,9 @@ private:
   virtual       void                    OnNewAnim(const orxSTRING _zOldAnim, const orxSTRING _zNewAnim, orxBOOL _bCut);
   virtual       void                    OnAnimUpdate(const orxSTRING _zAnim);
   virtual       void                    OnAnimEvent(const orxSTRING _zAnim, const orxSTRING _zEvent, orxFLOAT _fTime, orxFLOAT _fValue);
+
+
+private:
 
                 void                    SetDifferentialMode(orxBOOL _bDifferential = orxTRUE);
 
