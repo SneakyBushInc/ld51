@@ -99,7 +99,7 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         orxInput_SelectSet(orxConfig_GetCurrentSection());
 
         // Update movement
-        const orxSTRING zAnim = orxNULL;
+        const orxSTRING zAnim = "Idle";
         orxVECTOR vMove = {orxInput_GetValue("MoveRight") - orxInput_GetValue("MoveLeft"), orxInput_GetValue("MoveDown") - orxInput_GetValue("MoveUp")};
         if(!orxVector_IsNull(&vMove))
         {
@@ -121,6 +121,17 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
             }
         }
         SetSpeed(vMove);
+
+        // Aim
+        if(Object *poLoadout = ld51::GetInstance().GetObject<Object>(orxConfig_GetU64("Loadout")))
+        {
+            orxVECTOR vAim = {orxInput_GetValue("AimRight") - orxInput_GetValue("AimLeft"), orxInput_GetValue("AimDown") - orxInput_GetValue("AimUp")};
+            if(!orxVector_IsNull(&vAim))
+            {
+                orxVector_FromCartesianToSpherical(&vAim, &vAim);
+                poLoadout->SetRotation(vAim.fTheta);
+            }
+        }
 
         // Update anim
         SetAnim(zAnim);
