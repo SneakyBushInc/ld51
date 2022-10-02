@@ -27,6 +27,8 @@ private:
                 void            Exit();
                 void            BindObjects();
 
+                orxU32          GetPlayerCount() const;
+
 
 private:
 };

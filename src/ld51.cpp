@@ -59,6 +59,21 @@ void ld51::Update(const orxCLOCK_INFO &_rstInfo)
         }
         CreateObject("Select");
     }
+    else
+    {
+        // Has scene and not gameover?
+        Object *poScene;
+        if((poScene = GetObject<Object>(orxConfig_GetU64("Scene")))
+        && (!GetObject<Object>(orxConfig_GetU64("GameOver"))))
+        {
+            // Game over?
+            if(GetPlayerCount() == 0)
+            {
+                // Creates game over
+                CreateObject("GameOver");
+            }
+        }
+    }
 }
 
 /** Init function, it is called when all orx's modules have been initialized
@@ -117,6 +132,22 @@ void ld51::BindObjects()
     ScrollBindObject<Character>("Character");
     ScrollBindObject<Monster>("Monster");
     ScrollBindObject<Player>("Player");
+}
+
+orxU32 ld51::GetPlayerCount() const
+{
+    orxU32 u32Result = 0;
+    for(Player *poPlayer = GetNextObject<Player>();
+        poPlayer;
+        poPlayer = GetNextObject<Player>(poPlayer))
+    {
+        if(!poPlayer->IsDead())
+        {
+            u32Result++;
+        }
+    }
+
+    return u32Result;
 }
 
 /** Bootstrap function, it is called before config is initialized, allowing for early resource storage definitions
