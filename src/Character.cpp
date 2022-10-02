@@ -136,8 +136,20 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
             orxVECTOR vAim = {orxInput_GetValue("AimRight") - orxInput_GetValue("AimLeft"), orxInput_GetValue("AimDown") - orxInput_GetValue("AimUp")};
             if(!orxVector_IsNull(&vAim))
             {
+                orxVECTOR vScale;
                 orxVector_FromCartesianToSpherical(&vAim, &vAim);
-                poLoadout->SetRotation(vAim.fTheta);
+                poLoadout->GetScale(vScale);
+                if(orxMath_Abs(vAim.fTheta) <= orxMATH_KF_PI_BY_2)
+                {
+                    poLoadout->SetRotation(vAim.fTheta);
+                    vScale.fX = orxMath_Abs(vScale.fX);
+                }
+                else
+                {
+                    poLoadout->SetRotation(orxMATH_KF_PI + vAim.fTheta);
+                    vScale.fX = -orxMath_Abs(vScale.fX);
+                }
+                poLoadout->SetScale(vScale);
             }
         }
 
