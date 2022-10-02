@@ -44,10 +44,40 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
         }
         else
         {
+            // Select our input set
+            const orxSTRING zInputSet = orxInput_GetCurrentSet();
+            orxInput_SelectSet(orxConfig_GetCurrentSection());
+
             // Revive?
             if(orxInput_HasBeenActivated("Revive"))
             {
+                ld51 &roGame = ld51::GetInstance();
+
+                orxVECTOR vPos;
+                GetPosition(vPos, orxTRUE);
+                Player *poBestTarget    = orxNULL;
+                orxFLOAT fBestDistance  = orxFLOAT_MAX;
+                orxFLOAT fHealDistance  = orxConfig_GetFloat("HealDistance");
+
+                for(Player *poTarget = roGame.GetNextObject<Player>();
+                    poTarget;
+                    poTarget = roGame.GetNextObject<Player>(poTarget))
+                {
+                    if(poTarget->IsDead())
+                    {
+                        orxVECTOR vTargetPos;
+                        poTarget->GetPosition(vTargetPos, orxTRUE);
+                        orxFLOAT fDistance = orxVector_GetSquareDistance(&vPos, &vTargetPos);
+                        if(fDistance < fHealDistance)
+                        {
+                            poTarget->Revive();
+                        }
+                    }
+                }
             }
+
+            // Restore previous input set
+            orxInput_SelectSet(zInputSet);
         }
 
         // Pop config section
