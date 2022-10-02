@@ -58,35 +58,40 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
 {
     if(!IsDead())
     {
-        _poCollider->PushConfigSection();
-        if(!orxConfig_GetBool("IsCharacter")
-        || !(ScrollCast<Character *>(_poCollider))->IsDead())
+        orxOBJECT *pstOwner;
+        if(((pstOwner = orxOBJECT(orxObject_GetOwner(_poCollider->GetOrxObject()))) != GetOrxObject())
+        && (!pstOwner || (orxOBJECT(orxObject_GetOwner(pstOwner)) != GetOrxObject())))
         {
-            if(orxConfig_GetBool("SingleHit"))
+            _poCollider->PushConfigSection();
+            if(!orxConfig_GetBool("IsCharacter")
+            || !(ScrollCast<Character *>(_poCollider))->IsDead())
             {
-                SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
-                orxFLOAT fKnockback = orxConfig_GetFloat("Knockback");
-                if(fKnockback > orxFLOAT_0)
+                if(orxConfig_GetBool("SingleHit"))
                 {
-                    orxVECTOR vKnockback, vPos, vColliderPos;
-                    orxVector_Add(&vPos,
-                                  &vPos,
-                                  orxVector_Mulf(&vKnockback,
-                                                 orxVector_Normalize(&vKnockback,
-                                                                     orxVector_Sub(&vKnockback,
-                                                                                   &GetPosition(vPos, orxTRUE),
-                                                                                   &_poCollider->GetPosition(vColliderPos, orxTRUE))),
-                                                 fKnockback));
-                     SetPosition(vPos);
+                    SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
+                    orxFLOAT fKnockback = orxConfig_GetFloat("Knockback");
+                    if(fKnockback > orxFLOAT_0)
+                    {
+                        orxVECTOR vKnockback, vPos, vColliderPos;
+                        orxVector_Add(&vPos,
+                                      &vPos,
+                                      orxVector_Mulf(&vKnockback,
+                                                     orxVector_Normalize(&vKnockback,
+                                                                         orxVector_Sub(&vKnockback,
+                                                                                       &GetPosition(vPos, orxTRUE),
+                                                                                       &_poCollider->GetPosition(vColliderPos, orxTRUE))),
+                                                     fKnockback));
+                         SetPosition(vPos);
+                    }
+                    _poCollider->SetLifeTime(orxFLOAT_0);
                 }
-                _poCollider->SetLifeTime(orxFLOAT_0);
+                else
+                {
+                    fDamage += orxConfig_GetFloat("Damage");
+                }
             }
-            else
-            {
-                fDamage += orxConfig_GetFloat("Damage");
-            }
+            _poCollider->PopConfigSection();
         }
-        _poCollider->PopConfigSection();
     }
 
     return Object::OnCollide(_poCollider, _pstPart, _pstColliderPart, _rvPosition, _rvNormal);
