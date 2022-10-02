@@ -59,14 +59,18 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
     if(!IsDead())
     {
         _poCollider->PushConfigSection();
-        if(orxConfig_GetBool("SingleHit"))
+        if(!orxConfig_GetBool("IsCharacter")
+        || !(ScrollCast<Character *>(_poCollider))->IsDead())
         {
-            SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
-            _poCollider->SetLifeTime(orxFLOAT_0);
-        }
-        else
-        {
-            fDamage += orxConfig_GetFloat("Damage");
+            if(orxConfig_GetBool("SingleHit"))
+            {
+                SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
+                _poCollider->SetLifeTime(orxFLOAT_0);
+            }
+            else
+            {
+                fDamage += orxConfig_GetFloat("Damage");
+            }
         }
         _poCollider->PopConfigSection();
     }
