@@ -2,7 +2,7 @@
 -                Cypurr Menace                  -
 -------------------------------------------------
 
-A Ludum Dare 51 by Creampuff & Iarwain.
+A Ludum Dare 51 by OddCreampuff & Iarwain.
 
 Multiplayer co-op game, from 1 to 4 players.
 
