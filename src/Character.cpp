@@ -69,10 +69,9 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
         if(((pstOwner = orxOBJECT(orxObject_GetOwner(_poCollider->GetOrxObject()))) != GetOrxObject())
         && (!pstOwner || (orxOBJECT(orxObject_GetOwner(pstOwner)) != GetOrxObject())))
         {
-            Character *poCharacter;
             Object *poObject = ScrollCast<Object *>(_poCollider);
             if(!poObject->IsCharacter()
-            || !((poCharacter = ScrollCast<Character *>(_poCollider)))->IsDead())
+            || !ScrollCast<Character *>(_poCollider)->IsDead())
             {
                 if(poObject->IsSingleHit())
                 {
@@ -118,10 +117,17 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
 
 orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 {
-    Object *poObject = ScrollCast<Object *>(_poCollider);
-    if(!poObject->IsSingleHit())
+    if(!IsDead())
     {
-        fIncomingDamage -= poObject->GetDamage();
+        Object *poObject = ScrollCast<Object *>(_poCollider);
+        if(!poObject->IsCharacter()
+        || !ScrollCast<Character *>(_poCollider)->IsDead())
+        {
+            if(!poObject->IsSingleHit())
+            {
+                fIncomingDamage -= poObject->GetDamage();
+            }
+        }
     }
     return Object::OnSeparate(_poCollider);
 }
