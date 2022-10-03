@@ -121,6 +121,8 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         // Push config section
         PushConfigSection();
 
+        orxFLOAT fDeadZone = orxConfig_GetFloat("DeadZone");
+
         // Select our input set
         const orxSTRING zInputSet = orxInput_GetCurrentSet();
         orxInput_SelectSet(orxConfig_GetCurrentSection());
@@ -128,11 +130,12 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         // Update movement
         const orxSTRING zAnim = "Idle";
         orxVECTOR vMove = {orxInput_GetValue("MoveRight") - orxInput_GetValue("MoveLeft"), orxInput_GetValue("MoveDown") - orxInput_GetValue("MoveUp")};
-        if(!orxVector_IsNull(&vMove))
+        orxVector_FromCartesianToSpherical(&vMove, &vMove);
+        if(vMove.fRho >= fDeadZone)
         {
             zAnim = "Run";
-            orxVector_Mulf(&vMove, orxVector_Normalize(&vMove, &vMove), orxConfig_GetFloat("RunSpeed"));
-            if(vMove.fX < orxFLOAT_0)
+            vMove.fRho = orxConfig_GetFloat("RunSpeed");
+            if(orxMath_Abs(vMove.fTheta) > orxMATH_KF_PI_BY_2)
             {
                 orxVECTOR vScale;
                 GetScale(vScale);
@@ -147,16 +150,17 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
                 SetScale(vScale);
             }
         }
+        orxVector_FromSphericalToCartesian(&vMove, &vMove);
         SetSpeed(vMove);
 
         // Aim
         if(Object *poLoadout = ld51::GetInstance().GetObject<Object>(orxConfig_GetU64("Loadout")))
         {
             orxVECTOR vAim = {orxInput_GetValue("AimRight") - orxInput_GetValue("AimLeft"), orxInput_GetValue("AimDown") - orxInput_GetValue("AimUp")};
-            if(!orxVector_IsNull(&vAim))
+            orxVector_FromCartesianToSpherical(&vAim, &vAim);
+            if(vAim.fRho >= fDeadZone)
             {
                 orxVECTOR vScale;
-                orxVector_FromCartesianToSpherical(&vAim, &vAim);
                 poLoadout->GetScale(vScale);
                 if(orxMath_Abs(vAim.fTheta) <= orxMATH_KF_PI_BY_2)
                 {
@@ -170,17 +174,21 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
                 }
                 poLoadout->SetScale(vScale);
             }
-        }
 
-        // Action1?
-        if(orxInput_HasBeenActivated("Action1"))
-        {
-            zAnim = "Action1";
-        }
-        // Action2?
-        if(orxInput_HasBeenActivated("Action2"))
-        {
-            zAnim = "Action2";
+            // Action1?
+            if(!poLoadout->IsAnim("Action1", orxTRUE)
+            && ((orxConfig_GetBool("Action1Auto") && orxInput_IsActive("Action1"))
+             || orxInput_HasBeenActivated("Action1")))
+            {
+                zAnim = "Action1";
+            }
+            // Action2?
+            if(!poLoadout->IsAnim("Action2", orxTRUE)
+            && ((orxConfig_GetBool("Action2Auto") && orxInput_IsActive("Action2"))
+             || orxInput_HasBeenActivated("Action2")))
+            {
+                zAnim = "Action2";
+            }
         }
 
         // Update anim
