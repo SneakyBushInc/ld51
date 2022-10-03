@@ -31,11 +31,13 @@ protected:
                 orxBOOL         OnSeparate(ScrollObject *_poCollider);
                 void            Update(const orxCLOCK_INFO &_Info);
 
+                orxBOOL         bPlayer;
+
 
 private:
 
                 orxU64          u64Loadout;
-                orxFLOAT        fHealth, fMaxHealth, fIncomingDamage, fRunSpeed, fHealDistance;
+                orxFLOAT        fHealth, fMaxHealth, fIncomingDamage, fRunSpeed, fHealDistance, fDamageTick, fDamageTime;
                 orxBOOL         bDead, bAction1Auto, bAction2Auto;
 };
 

@@ -14,8 +14,8 @@ void Player::OnCreate()
 {
     // Init variables
     Character::OnCreate();
-    bNew = orxTRUE;
-    orxConfig_SetBool("IsPlayer", orxTRUE);
+    bPlayer = orxTRUE;
+    bNew    = orxTRUE;
 }
 
 void Player::OnDelete()

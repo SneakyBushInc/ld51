@@ -21,8 +21,7 @@ void Character::Revive()
         PushConfigSection();
         SetHealth(orxConfig_GetFloat("ReviveHealth"));
         PopConfigSection();
-        SetAnim("Revive");
-        orxObject_CreateFromConfig("ReviveSFX");
+        AddTrack("ReviveTrack");
     }
 }
 
@@ -49,6 +48,8 @@ void Character::OnCreate()
     u64Loadout = orxConfig_GetU64("Loadout");
     bAction1Auto = orxConfig_GetBool("Action1Auto");
     bAction2Auto = orxConfig_GetBool("Action2Auto");
+    fDamageTick = orxConfig_GetFloat("DamageTick");
+    fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
     fIncomingDamage = orxFLOAT_0;
 
     // Enable our input set
@@ -89,6 +90,19 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
                                                      poObject->GetKnockback()));
                          SetPosition(vPos);
                     }
+
+                    if(bPlayer)
+                    {
+                        if(poObject->GetDamage() < orxFLOAT_0)
+                        {
+                            AddTrack("PlayerHealTrack");
+                        }
+                        else if(poObject->GetDamage() > orxFLOAT_0)
+                        {
+                            AddTrack("PlayerHitTrack");
+                        }
+                    }
+
                     _poCollider->SetLifeTime(orxFLOAT_0);
                 }
                 else
@@ -116,7 +130,12 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
 {
     if(!bDead && fIncomingDamage)
     {
-        SetHealth(GetHealth() - (_rstInfo.fDT * fIncomingDamage));
+        if(bPlayer && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
+        {
+            SetHealth(GetHealth() - fIncomingDamage);
+            fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
+            AddTrack("PlayerHitTrack");
+        }
     }
 
     if(!bDead)
