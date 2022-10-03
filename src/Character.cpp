@@ -36,7 +36,7 @@ void Character::SetHealth(orxFLOAT _fHealth)
             Die();
         }
     }
-}
+} 
 
 void Character::OnCreate()
 {
