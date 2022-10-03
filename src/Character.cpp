@@ -10,7 +10,7 @@ void Character::Die()
     bDead = orxTRUE;
     SetHealth(orxFLOAT_0);
     SetSpeed(orxVECTOR_0);
-    SetAnim("Death");
+    SetAnim("Dead");
 }
 
 void Character::Revive()
@@ -122,13 +122,9 @@ orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
     if(!IsDead())
     {
         Object *poObject = ScrollCast<Object *>(_poCollider);
-        if(!poObject->IsCharacter()
-        || !ScrollCast<Character *>(_poCollider)->IsDead())
+        if(!poObject->IsSingleHit())
         {
-            if(!poObject->IsSingleHit())
-            {
-                fIncomingDamage -= poObject->GetDamage();
-            }
+            fIncomingDamage = orxMAX(fIncomingDamage - poObject->GetDamage(), orxFLOAT_0);
         }
     }
     return Object::OnSeparate(_poCollider);
@@ -233,6 +229,7 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
     else
     {
         SetSpeed(orxVECTOR_0);
+        SetAnim("Dead");
     }
 
     Object::Update(_rstInfo);
