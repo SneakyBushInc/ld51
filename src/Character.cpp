@@ -43,6 +43,7 @@ void Character::OnCreate()
     // Init variables
     Object::OnCreate();
     bCharacter = orxTRUE;
+    bAttract = orxConfig_GetBool("Attract");
     fHealth = fMaxHealth = orxConfig_GetFloat("Health");
     fReviveHealth = orxConfig_GetFloat("ReviveHealth");
     fRunSpeed = orxConfig_GetFloat("RunSpeed");
@@ -65,7 +66,7 @@ void Character::OnDelete()
 
 orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal)
 {
-    if(!IsDead())
+    if(!IsDead() && !bAttract)
     {
         orxOBJECT *pstOwner;
         if(((pstOwner = orxOBJECT(orxObject_GetOwner(_poCollider->GetOrxObject()))) != GetOrxObject())
@@ -119,7 +120,7 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
 
 orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 {
-    if(!IsDead())
+    if(!IsDead() && !bAttract)
     {
         Object *poObject = ScrollCast<Object *>(_poCollider);
         if(!poObject->IsSingleHit())
@@ -132,7 +133,7 @@ orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
 {
-    if(bPlayer && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
+    if(bPlayer && !bAttract && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
     {
         fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
         if(!bDead && fIncomingDamage)
@@ -142,94 +143,101 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         }
     }
 
-    if(!bDead)
+    if(bAttract)
     {
-        ld51 &roGame = ld51::GetInstance();
-
-        // Select our input set
-        const orxSTRING zInputSet = orxInput_GetCurrentSet();
-        orxInput_SelectSet(GetModelName());
-
-        // Update movement
-        const orxSTRING zAnim = "Idle";
-        orxVECTOR vMove = {orxInput_GetValue("MoveRight") - orxInput_GetValue("MoveLeft"), orxInput_GetValue("MoveDown") - orxInput_GetValue("MoveUp")};
-        orxVector_FromCartesianToSpherical(&vMove, &vMove);
-        if(vMove.fRho >= roGame.fDeadZone)
-        {
-            zAnim = "Run";
-            vMove.fRho = fRunSpeed;
-            if(orxMath_Abs(vMove.fTheta) > orxMATH_KF_PI_BY_2)
-            {
-                orxVECTOR vScale;
-                GetScale(vScale);
-                vScale.fX = -orxMath_Abs(vScale.fX);
-                SetScale(vScale);
-            }
-            else if(vMove.fX > orxFLOAT_0)
-            {
-                orxVECTOR vScale;
-                GetScale(vScale);
-                vScale.fX = orxMath_Abs(vScale.fX);
-                SetScale(vScale);
-            }
-        }
-        orxVector_FromSphericalToCartesian(&vMove, &vMove);
-        SetSpeed(vMove);
-
-        // Containment
-        orxVECTOR vPos;
-        GetPosition(vPos, orxTRUE);
-        orxVector_Clamp(&vPos, &vPos, &roGame.vArenaTL, &roGame.vArenaBR);
-        SetPosition(vPos, orxTRUE);
-
-        // Aim
-        if(Object *poLoadout = roGame.GetObject<Object>(u64Loadout))
-        {
-            orxVECTOR vAim = {orxInput_GetValue("AimRight") - orxInput_GetValue("AimLeft"), orxInput_GetValue("AimDown") - orxInput_GetValue("AimUp")};
-            orxVector_FromCartesianToSpherical(&vAim, &vAim);
-            if(vAim.fRho >= roGame.fDeadZone)
-            {
-                orxVECTOR vScale;
-                poLoadout->GetScale(vScale);
-                if(orxMath_Abs(vAim.fTheta) <= orxMATH_KF_PI_BY_2)
-                {
-                    poLoadout->SetRotation(vAim.fTheta);
-                    vScale.fX = orxMath_Abs(vScale.fX);
-                }
-                else
-                {
-                    poLoadout->SetRotation(orxMATH_KF_PI + vAim.fTheta);
-                    vScale.fX = -orxMath_Abs(vScale.fX);
-                }
-                poLoadout->SetScale(vScale);
-            }
-
-            // Action1?
-            if(!poLoadout->IsAnim("Action1", orxTRUE)
-            && ((bAction1Auto && orxInput_IsActive("Action1"))
-             || orxInput_HasBeenActivated("Action1")))
-            {
-                zAnim = "Action1";
-            }
-            // Action2?
-            if(!poLoadout->IsAnim("Action2", orxTRUE)
-            && ((bAction2Auto && orxInput_IsActive("Action2"))
-             || orxInput_HasBeenActivated("Action2")))
-            {
-                zAnim = "Action2";
-            }
-        }
-
-        // Update anim
-        SetAnim(zAnim);
-
-        // Restore previous input set
-        orxInput_SelectSet(zInputSet);
+        SetAnim("AngryIdle");
     }
     else
     {
-        SetSpeed(orxVECTOR_0);
-        SetAnim("Dead");
+        if(!bDead)
+        {
+            ld51 &roGame = ld51::GetInstance();
+
+            // Select our input set
+            const orxSTRING zInputSet = orxInput_GetCurrentSet();
+            orxInput_SelectSet(GetModelName());
+
+            // Update movement
+            const orxSTRING zAnim = "Idle";
+            orxVECTOR vMove = {orxInput_GetValue("MoveRight") - orxInput_GetValue("MoveLeft"), orxInput_GetValue("MoveDown") - orxInput_GetValue("MoveUp")};
+            orxVector_FromCartesianToSpherical(&vMove, &vMove);
+            if(vMove.fRho >= roGame.fDeadZone)
+            {
+                zAnim = "Run";
+                vMove.fRho = fRunSpeed;
+                if(orxMath_Abs(vMove.fTheta) > orxMATH_KF_PI_BY_2)
+                {
+                    orxVECTOR vScale;
+                    GetScale(vScale);
+                    vScale.fX = -orxMath_Abs(vScale.fX);
+                    SetScale(vScale);
+                }
+                else if(vMove.fX > orxFLOAT_0)
+                {
+                    orxVECTOR vScale;
+                    GetScale(vScale);
+                    vScale.fX = orxMath_Abs(vScale.fX);
+                    SetScale(vScale);
+                }
+            }
+            orxVector_FromSphericalToCartesian(&vMove, &vMove);
+            SetSpeed(vMove);
+
+            // Containment
+            orxVECTOR vPos;
+            GetPosition(vPos, orxTRUE);
+            orxVector_Clamp(&vPos, &vPos, &roGame.vArenaTL, &roGame.vArenaBR);
+            SetPosition(vPos, orxTRUE);
+
+            // Aim
+            if(Object *poLoadout = roGame.GetObject<Object>(u64Loadout))
+            {
+                orxVECTOR vAim = {orxInput_GetValue("AimRight") - orxInput_GetValue("AimLeft"), orxInput_GetValue("AimDown") - orxInput_GetValue("AimUp")};
+                orxVector_FromCartesianToSpherical(&vAim, &vAim);
+                if(vAim.fRho >= roGame.fDeadZone)
+                {
+                    orxVECTOR vScale;
+                    poLoadout->GetScale(vScale);
+                    if(orxMath_Abs(vAim.fTheta) <= orxMATH_KF_PI_BY_2)
+                    {
+                        poLoadout->SetRotation(vAim.fTheta);
+                        vScale.fX = orxMath_Abs(vScale.fX);
+                    }
+                    else
+                    {
+                        poLoadout->SetRotation(orxMATH_KF_PI + vAim.fTheta);
+                        vScale.fX = -orxMath_Abs(vScale.fX);
+                    }
+                    poLoadout->SetScale(vScale);
+                }
+
+                // Action1?
+                if(!poLoadout->IsAnim("Action1", orxTRUE)
+                && ((bAction1Auto && orxInput_IsActive("Action1"))
+                 || orxInput_HasBeenActivated("Action1")))
+                {
+                    zAnim = "Action1";
+                }
+                // Action2?
+                if(!poLoadout->IsAnim("Action2", orxTRUE)
+                && ((bAction2Auto && orxInput_IsActive("Action2"))
+                 || orxInput_HasBeenActivated("Action2")))
+                {
+                    zAnim = "Action2";
+                }
+            }
+
+            // Update anim
+            SetAnim(zAnim);
+
+            // Restore previous input set
+            orxInput_SelectSet(zInputSet);
+        }
+        else
+        {
+            SetSpeed(orxVECTOR_0);
+            SetAnim("Dead");
+        }
     }
 
     Object::Update(_rstInfo);

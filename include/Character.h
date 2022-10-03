@@ -31,7 +31,7 @@ protected:
                 orxBOOL         OnSeparate(ScrollObject *_poCollider);
                 void            Update(const orxCLOCK_INFO &_Info);
 
-                orxBOOL         bPlayer;
+                orxBOOL         bPlayer, bAttract;
 
 
 private:
