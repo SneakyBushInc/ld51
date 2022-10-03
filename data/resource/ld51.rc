@@ -21,12 +21,12 @@ BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "CompanyName", "Sneaky Bush"
-      VALUE "FileDescription", "LD49"
+      VALUE "FileDescription", "Cypurr Menace"
       VALUE "FileVersion", "1.0"
-      VALUE "InternalName", "ld49"
+      VALUE "InternalName", "CypurrMenace"
       VALUE "LegalCopyright", "Sneaky Bush, Inc."
-      VALUE "OriginalFilename", "ld49.exe"
-      VALUE "ProductName", "LD49"
+      VALUE "OriginalFilename", "CypurrMenace.exe"
+      VALUE "ProductName", "Cypurr Menace"
       VALUE "ProductVersion", "1.0"
     END
   END
