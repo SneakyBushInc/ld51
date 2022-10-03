@@ -89,6 +89,11 @@ void ld51::Update(const orxCLOCK_INFO &_rstInfo)
         if((poScene = GetObject<Object>(orxConfig_GetU64("Scene")))
         && (!GetObject<Object>(orxConfig_GetU64("GameOver"))))
         {
+            orxCHAR acBuffer[32];
+            orxFLOAT fSceneTime = orxObject_GetActiveTime(poScene->GetOrxObject());
+            orxString_NPrint(acBuffer, sizeof(acBuffer) - 1, "%.1f", fSceneTime);
+            orxConfig_SetString("Time", acBuffer);
+
             // Game over?
             if(GetPlayerCount() == 0)
             {

@@ -66,7 +66,7 @@ void Character::OnDelete()
 
 orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal)
 {
-    if(!IsDead() && !bAttract)
+    if(!IsDead())
     {
         orxOBJECT *pstOwner;
         if(((pstOwner = orxOBJECT(orxObject_GetOwner(_poCollider->GetOrxObject()))) != GetOrxObject())
@@ -120,7 +120,7 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
 
 orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 {
-    if(!IsDead() && !bAttract)
+    if(!IsDead())
     {
         Object *poObject = ScrollCast<Object *>(_poCollider);
         if(!poObject->IsSingleHit())
@@ -133,22 +133,18 @@ orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
 {
-    if(bPlayer && !bAttract && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
+    if(!bAttract)
     {
-        fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
-        if(!bDead && fIncomingDamage)
+        if(bPlayer && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
         {
-            SetHealth(GetHealth() - fIncomingDamage);
-            AddTrack("PlayerHitTrack");
+            fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
+            if(!bDead && fIncomingDamage)
+            {
+                SetHealth(GetHealth() - fIncomingDamage);
+                AddTrack("PlayerHitTrack");
+            }
         }
-    }
 
-    if(bAttract)
-    {
-        SetAnim("AngryIdle");
-    }
-    else
-    {
         if(!bDead)
         {
             ld51 &roGame = ld51::GetInstance();
@@ -238,6 +234,10 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
             SetSpeed(orxVECTOR_0);
             SetAnim("Dead");
         }
+    }
+    else
+    {
+        SetAnim("AngryIdle");
     }
 
     Object::Update(_rstInfo);
