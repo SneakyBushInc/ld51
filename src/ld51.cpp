@@ -30,6 +30,33 @@ __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 
 static orxBOOL sbRestart = orxTRUE;
 
+static orxSTATUS orxFASTCALL EventHandler(const orxEVENT *_pstEvent)
+{
+    static orxS32 s32PauseCount = 0;
+    orxSTATUS eResult = orxSTATUS_SUCCESS;
+
+    switch(_pstEvent->eID)
+    {
+        case orxSYSTEM_EVENT_FOCUS_LOST:
+        case orxSYSTEM_EVENT_BACKGROUND:
+        {
+            s32PauseCount++;
+            break;
+        }
+
+        case orxSYSTEM_EVENT_FOCUS_GAINED:
+        case orxSYSTEM_EVENT_FOREGROUND:
+        {
+            s32PauseCount = orxMAX(s32PauseCount - 1, 0);
+            break;
+        }
+    }
+
+    ld51::GetInstance().PauseGame(s32PauseCount > 0);
+
+    return eResult;
+}
+
 /** Update function, it has been registered to be called every tick of the core clock
  */
 void ld51::Update(const orxCLOCK_INFO &_rstInfo)
@@ -80,15 +107,18 @@ void ld51::Update(const orxCLOCK_INFO &_rstInfo)
  */
 orxSTATUS ld51::Init()
 {
-    // Initialize MOD support
-    orxMod_Init();
-
     // Is processing a new bundle?
     if(orxBundle_IsProcessing())
     {
         // Done!
         return orxSTATUS_SUCCESS;
     }
+
+    // Initialize MOD support
+    orxMod_Init();
+
+    // Register event handler
+    orxEvent_AddHandler(orxEVENT_TYPE_SYSTEM, EventHandler);
 
     // Push game section
     orxConfig_PushSection("Game");
