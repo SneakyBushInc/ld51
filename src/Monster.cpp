@@ -68,7 +68,11 @@ Player *Monster::SelectTarget()
     orxVECTOR vPos, vTargetPos;
     GetPosition(vPos, orxTRUE);
     Player *poBestTarget = roGame.GetObject<Player>(u64Target);
-    orxFLOAT fBestDistance = (poBestTarget && !poBestTarget->IsDead()) ? orxVector_GetSquareDistance(&poBestTarget->GetPosition(vTargetPos, orxTRUE), &vPos) : orxFLOAT_MAX;
+    if(poBestTarget && poBestTarget->IsDead())
+    {
+        poBestTarget = orxNULL;
+    }
+    orxFLOAT fBestDistance = poBestTarget ? orxVector_GetSquareDistance(&poBestTarget->GetPosition(vTargetPos, orxTRUE), &vPos) : orxFLOAT_MAX;
 
     for(Player *poTarget = roGame.GetNextObject<Player>();
         poTarget;
