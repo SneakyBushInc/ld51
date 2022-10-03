@@ -22,6 +22,7 @@ void Character::Revive()
         SetHealth(orxConfig_GetFloat("ReviveHealth"));
         PopConfigSection();
         SetAnim("Revive");
+        orxObject_CreateFromConfig("ReviveSFX");
     }
 }
 
