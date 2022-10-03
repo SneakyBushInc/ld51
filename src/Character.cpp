@@ -18,8 +18,9 @@ void Character::Revive()
     if(bDead)
     {
         bDead = orxFALSE;
+        fIncomingDamage = orxFLOAT_0;
         PushConfigSection();
-        SetHealth(orxConfig_GetFloat("ReviveHealth"));
+        SetHealth(fReviveHealth);
         PopConfigSection();
         AddTrack("ReviveTrack");
     }
@@ -35,7 +36,7 @@ void Character::SetHealth(orxFLOAT _fHealth)
             Die();
         }
     }
-} 
+}
 
 void Character::OnCreate()
 {
@@ -43,6 +44,7 @@ void Character::OnCreate()
     Object::OnCreate();
     bCharacter = orxTRUE;
     fHealth = fMaxHealth = orxConfig_GetFloat("Health");
+    fReviveHealth = orxConfig_GetFloat("ReviveHealth");
     fRunSpeed = orxConfig_GetFloat("RunSpeed");
     fHealDistance = orxConfig_GetFloat("HealDistance");
     u64Loadout = orxConfig_GetU64("Loadout");
@@ -134,12 +136,12 @@ orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
 {
-    if(!bDead && fIncomingDamage)
+    if(bPlayer && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
     {
-        if(bPlayer && orxObject_GetActiveTime(GetOrxObject()) >= fDamageTime)
+        fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
+        if(!bDead && fIncomingDamage)
         {
             SetHealth(GetHealth() - fIncomingDamage);
-            fDamageTime = orxObject_GetActiveTime(GetOrxObject()) + fDamageTick;
             AddTrack("PlayerHitTrack");
         }
     }

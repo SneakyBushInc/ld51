@@ -37,7 +37,9 @@ protected:
 private:
 
                 orxU64          u64Loadout;
-                orxFLOAT        fHealth, fMaxHealth, fIncomingDamage, fRunSpeed, fHealDistance, fDamageTick, fDamageTime;
+                orxFLOAT        fHealth, fMaxHealth, fReviveHealth;
+                orxFLOAT        fIncomingDamage, fDamageTick, fDamageTime;
+                orxFLOAT        fRunSpeed, fHealDistance;
                 orxBOOL         bDead, bAction1Auto, bAction2Auto;
 };
 
