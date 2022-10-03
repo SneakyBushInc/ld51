@@ -118,6 +118,12 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
 
     if(!bDead)
     {
+        orxVECTOR vArenaTL, vArenaBR;
+
+        // Gets arena corners
+        orxConfig_GetListVector("ArenaCorners", 0, &vArenaTL);
+        orxConfig_GetListVector("ArenaCorners", 1, &vArenaBR);
+
         // Push config section
         PushConfigSection();
 
@@ -152,6 +158,12 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         }
         orxVector_FromSphericalToCartesian(&vMove, &vMove);
         SetSpeed(vMove);
+
+        // Containment
+        orxVECTOR vPos;
+        GetPosition(vPos, orxTRUE);
+        orxVector_Clamp(&vPos, &vPos, &vArenaTL, &vArenaBR);
+        SetPosition(vPos, orxTRUE);
 
         // Aim
         if(Object *poLoadout = ld51::GetInstance().GetObject<Object>(orxConfig_GetU64("Loadout")))
