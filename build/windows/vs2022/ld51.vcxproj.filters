@@ -2,31 +2,28 @@
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{01DE64EE-A6CF-0245-867D-B0B932794721}</UniqueIdentifier>
+      <UniqueIdentifier>{B32B52F9-2A67-5E4C-83F4-0E72C14CF29B}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{DDF29F28-4D51-4D4C-83A2-76002E66F03D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\pocketmod">
-      <UniqueIdentifier>{BB7450BA-A3EB-414B-8B4A-5FD92CACFF7A}</UniqueIdentifier>
+      <UniqueIdentifier>{65B94EAC-24CF-E94C-A15C-B6E9E57090E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\Scroll">
-      <UniqueIdentifier>{0F954785-4076-1C45-AB3E-5F8AE51BB20C}</UniqueIdentifier>
+      <UniqueIdentifier>{9ED9AB76-A8F7-7740-9951-97D8C390AD3C}</UniqueIdentifier>
     </Filter>
     <Filter Include="inline">
-      <UniqueIdentifier>{5E8471E6-E88C-8744-9BB8-F898BAAC781B}</UniqueIdentifier>
+      <UniqueIdentifier>{59DF6426-6E29-7649-92FC-616B0B7E23BD}</UniqueIdentifier>
     </Filter>
     <Filter Include="bundle">
-      <UniqueIdentifier>{99EC6FE4-E0DE-2F42-AE9A-7A58093776F4}</UniqueIdentifier>
+      <UniqueIdentifier>{F04B8659-42C5-B848-89E7-3898FFC9F997}</UniqueIdentifier>
     </Filter>
     <Filter Include="config">
-      <UniqueIdentifier>{2EC5F0A2-A44B-7845-996D-80293D988FA1}</UniqueIdentifier>
+      <UniqueIdentifier>{9EA5ABA4-C1F2-314A-BA59-E3ACD83C5872}</UniqueIdentifier>
     </Filter>
     <Filter Include="data">
-      <UniqueIdentifier>{7F45E9E3-EE58-2A42-AE26-1B2D08BBDB50}</UniqueIdentifier>
+      <UniqueIdentifier>{EC315441-2B37-6B40-9646-4623F2C42BB4}</UniqueIdentifier>
     </Filter>
     <Filter Include="data\resource">
-      <UniqueIdentifier>{75F72891-2259-3647-95E5-E10782E00922}</UniqueIdentifier>
+      <UniqueIdentifier>{0726167B-AF47-FF4B-B83D-86DDB0FFC3EC}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +42,16 @@
     <None Include="..\..\..\include\orxBundleData.inc">
       <Filter>bundle</Filter>
     </None>
+    <None Include="..\..\..\data\config\character.ini">
+      <Filter>config</Filter>
+    </None>
     <None Include="..\..\..\data\config\CreationTemplate.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\font.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\gameover.ini">
       <Filter>config</Filter>
     </None>
     <None Include="..\..\..\data\config\ld51.ini">
@@ -57,7 +63,25 @@
     <None Include="..\..\..\data\config\ld51p.ini">
       <Filter>config</Filter>
     </None>
+    <None Include="..\..\..\data\config\monster.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\player.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\scene.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\select.ini">
+      <Filter>config</Filter>
+    </None>
     <None Include="..\..\..\data\config\SettingsTemplate.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\sound.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\title.ini">
       <Filter>config</Filter>
     </None>
   </ItemGroup>
@@ -77,14 +101,8 @@
     <ClInclude Include="..\..\..\include\orxBundle.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\orxMod.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\Player.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\pocketmod\pocketmod.h">
-      <Filter>include\pocketmod</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\Scroll\Scroll.h">
       <Filter>include\Scroll</Filter>

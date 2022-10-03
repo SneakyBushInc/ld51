@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C1AD4AE9-D8E2-104D-B656-E36957ED9B10}</ProjectGuid>
+    <ProjectGuid>{D258F0C3-230D-1743-BFAF-95BD1B2423D2}</ProjectGuid>
     <RootNamespace>ld51</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -370,9 +370,7 @@
     <ClInclude Include="..\..\..\include\Monster.h" />
     <ClInclude Include="..\..\..\include\Object.h" />
     <ClInclude Include="..\..\..\include\orxBundle.h" />
-    <ClInclude Include="..\..\..\include\orxMod.h" />
     <ClInclude Include="..\..\..\include\Player.h" />
-    <ClInclude Include="..\..\..\include\pocketmod\pocketmod.h" />
     <ClInclude Include="..\..\..\include\Scroll\Scroll.h" />
     <ClInclude Include="..\..\..\include\Scroll\ScrollBase.h" />
     <ClInclude Include="..\..\..\include\Scroll\ScrollEd.h" />
@@ -396,11 +394,20 @@
     <None Include="..\..\..\include\Scroll\ScrollEd.inl" />
     <None Include="..\..\..\include\Scroll\ScrollObject.inl" />
     <None Include="..\..\..\include\orxBundleData.inc" />
+    <None Include="..\..\..\data\config\character.ini" />
     <None Include="..\..\..\data\config\CreationTemplate.ini" />
+    <None Include="..\..\..\data\config\font.ini" />
+    <None Include="..\..\..\data\config\gameover.ini" />
     <None Include="..\..\..\data\config\ld51.ini" />
     <None Include="..\..\..\data\config\ld51d.ini" />
     <None Include="..\..\..\data\config\ld51p.ini" />
+    <None Include="..\..\..\data\config\monster.ini" />
+    <None Include="..\..\..\data\config\player.ini" />
+    <None Include="..\..\..\data\config\scene.ini" />
+    <None Include="..\..\..\data\config\select.ini" />
     <None Include="..\..\..\data\config\SettingsTemplate.ini" />
+    <None Include="..\..\..\data\config\sound.ini" />
+    <None Include="..\..\..\data\config\title.ini" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\data\resource\ld51.rc" />

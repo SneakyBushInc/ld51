@@ -16,10 +16,6 @@
 #include "orxBundle.h"
 #undef orxBUNDLE_IMPL
 
-#define orxMOD_IMPL
-#include "orxMod.h"
-#undef orxMOD_IMPL
-
 #ifdef __orxMSVC__
 
 /* Requesting high performance dedicated GPU on hybrid laptops */
@@ -114,9 +110,6 @@ orxSTATUS ld51::Init()
         return orxSTATUS_SUCCESS;
     }
 
-    // Initialize MOD support
-    orxMod_Init();
-
     // Register event handler
     orxEvent_AddHandler(orxEVENT_TYPE_SYSTEM, EventHandler);
 
@@ -155,9 +148,6 @@ orxSTATUS ld51::Run()
  */
 void ld51::Exit()
 {
-    // Exit from MOD support
-    orxMod_Exit();
-
     // Exit from bundle support
     orxBundle_Exit();
 
