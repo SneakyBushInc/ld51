@@ -41,12 +41,17 @@ void Character::OnCreate()
 {
     // Init variables
     Object::OnCreate();
-    orxConfig_SetBool("IsCharacter", orxTRUE);
+    bCharacter = orxTRUE;
     fHealth = fMaxHealth = orxConfig_GetFloat("Health");
-    fDamage = orxFLOAT_0;
+    fRunSpeed = orxConfig_GetFloat("RunSpeed");
+    fHealDistance = orxConfig_GetFloat("HealDistance");
+    u64Loadout = orxConfig_GetU64("Loadout");
+    bAction1Auto = orxConfig_GetBool("Action1Auto");
+    bAction2Auto = orxConfig_GetBool("Action2Auto");
+    fIncomingDamage = orxFLOAT_0;
 
     // Enable our input set
-    orxInput_EnableSet(orxConfig_GetCurrentSection(), orxTRUE);
+    orxInput_EnableSet(GetModelName(), orxTRUE);
 }
 
 void Character::OnDelete()
@@ -62,15 +67,15 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
         if(((pstOwner = orxOBJECT(orxObject_GetOwner(_poCollider->GetOrxObject()))) != GetOrxObject())
         && (!pstOwner || (orxOBJECT(orxObject_GetOwner(pstOwner)) != GetOrxObject())))
         {
-            _poCollider->PushConfigSection();
-            if(!orxConfig_GetBool("IsCharacter")
-            || !(ScrollCast<Character *>(_poCollider))->IsDead())
+            Character *poCharacter;
+            Object *poObject = ScrollCast<Object *>(_poCollider);
+            if(!poObject->IsCharacter()
+            || !((poCharacter = ScrollCast<Character *>(_poCollider)))->IsDead())
             {
-                if(orxConfig_GetBool("SingleHit"))
+                if(poObject->IsSingleHit())
                 {
-                    SetHealth(GetHealth() - orxConfig_GetFloat("Damage"));
-                    orxFLOAT fKnockback = orxConfig_GetFloat("Knockback");
-                    if(fKnockback > orxFLOAT_0)
+                    SetHealth(GetHealth() - poObject->GetDamage());
+                    if(poObject->GetKnockback() > orxFLOAT_0)
                     {
                         orxVECTOR vKnockback, vPos, vColliderPos;
                         orxVector_Add(&vPos,
@@ -80,17 +85,16 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
                                                                          orxVector_Sub(&vKnockback,
                                                                                        &GetPosition(vPos, orxTRUE),
                                                                                        &_poCollider->GetPosition(vColliderPos, orxTRUE))),
-                                                     fKnockback));
+                                                     poObject->GetKnockback()));
                          SetPosition(vPos);
                     }
                     _poCollider->SetLifeTime(orxFLOAT_0);
                 }
                 else
                 {
-                    fDamage += orxConfig_GetFloat("Damage");
+                    fIncomingDamage += poObject->GetDamage();
                 }
             }
-            _poCollider->PopConfigSection();
         }
     }
 
@@ -99,48 +103,37 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
 
 orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
 {
-    _poCollider->PushConfigSection();
-    if(!orxConfig_GetBool("SingleHit"))
+    Object *poObject = ScrollCast<Object *>(_poCollider);
+    if(!poObject->IsSingleHit())
     {
-        fDamage -= orxConfig_GetFloat("Damage");
+        fIncomingDamage -= poObject->GetDamage();
     }
-    _poCollider->PopConfigSection();
-
     return Object::OnSeparate(_poCollider);
 }
 
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
 {
-    if(!bDead && fDamage)
+    if(!bDead && fIncomingDamage)
     {
-        SetHealth(GetHealth() - (_rstInfo.fDT * fDamage));
+        SetHealth(GetHealth() - (_rstInfo.fDT * fIncomingDamage));
     }
 
     if(!bDead)
     {
-        orxVECTOR vArenaTL, vArenaBR;
-
-        // Gets arena corners
-        orxConfig_GetListVector("ArenaCorners", 0, &vArenaTL);
-        orxConfig_GetListVector("ArenaCorners", 1, &vArenaBR);
-
-        // Push config section
-        PushConfigSection();
-
-        orxFLOAT fDeadZone = orxConfig_GetFloat("DeadZone");
+        ld51 &roGame = ld51::GetInstance();
 
         // Select our input set
         const orxSTRING zInputSet = orxInput_GetCurrentSet();
-        orxInput_SelectSet(orxConfig_GetCurrentSection());
+        orxInput_SelectSet(GetModelName());
 
         // Update movement
         const orxSTRING zAnim = "Idle";
         orxVECTOR vMove = {orxInput_GetValue("MoveRight") - orxInput_GetValue("MoveLeft"), orxInput_GetValue("MoveDown") - orxInput_GetValue("MoveUp")};
         orxVector_FromCartesianToSpherical(&vMove, &vMove);
-        if(vMove.fRho >= fDeadZone)
+        if(vMove.fRho >= roGame.fDeadZone)
         {
             zAnim = "Run";
-            vMove.fRho = orxConfig_GetFloat("RunSpeed");
+            vMove.fRho = fRunSpeed;
             if(orxMath_Abs(vMove.fTheta) > orxMATH_KF_PI_BY_2)
             {
                 orxVECTOR vScale;
@@ -162,15 +155,15 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
         // Containment
         orxVECTOR vPos;
         GetPosition(vPos, orxTRUE);
-        orxVector_Clamp(&vPos, &vPos, &vArenaTL, &vArenaBR);
+        orxVector_Clamp(&vPos, &vPos, &roGame.vArenaTL, &roGame.vArenaBR);
         SetPosition(vPos, orxTRUE);
 
         // Aim
-        if(Object *poLoadout = ld51::GetInstance().GetObject<Object>(orxConfig_GetU64("Loadout")))
+        if(Object *poLoadout = roGame.GetObject<Object>(u64Loadout))
         {
             orxVECTOR vAim = {orxInput_GetValue("AimRight") - orxInput_GetValue("AimLeft"), orxInput_GetValue("AimDown") - orxInput_GetValue("AimUp")};
             orxVector_FromCartesianToSpherical(&vAim, &vAim);
-            if(vAim.fRho >= fDeadZone)
+            if(vAim.fRho >= roGame.fDeadZone)
             {
                 orxVECTOR vScale;
                 poLoadout->GetScale(vScale);
@@ -189,14 +182,14 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
 
             // Action1?
             if(!poLoadout->IsAnim("Action1", orxTRUE)
-            && ((orxConfig_GetBool("Action1Auto") && orxInput_IsActive("Action1"))
+            && ((bAction1Auto && orxInput_IsActive("Action1"))
              || orxInput_HasBeenActivated("Action1")))
             {
                 zAnim = "Action1";
             }
             // Action2?
             if(!poLoadout->IsAnim("Action2", orxTRUE)
-            && ((orxConfig_GetBool("Action2Auto") && orxInput_IsActive("Action2"))
+            && ((bAction2Auto && orxInput_IsActive("Action2"))
              || orxInput_HasBeenActivated("Action2")))
             {
                 zAnim = "Action2";
@@ -208,9 +201,6 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
 
         // Restore previous input set
         orxInput_SelectSet(zInputSet);
-
-        // Pop config section
-        PopConfigSection();
     }
     else
     {

@@ -14,6 +14,11 @@ class Object : public ScrollObject
 {
 public:
 
+                orxFLOAT        GetDamage() const       {return fDamage;}
+                orxFLOAT        GetKnockback() const    {return fKnockback;}
+                orxBOOL         IsSingleHit() const     {return bSingleHit;}
+                orxBOOL         IsCharacter() const     {return bCharacter;}
+
 
 protected:
 
@@ -21,10 +26,12 @@ protected:
                 void            OnDelete();
                 void            Update(const orxCLOCK_INFO &_rstInfo);
 
-                orxBOOL         OnShader(orxSHADER_EVENT_PAYLOAD &_rstPayload);
+                orxBOOL         bCharacter;
 
 
 private:
+                orxFLOAT        fDamage, fKnockback;
+                orxBOOL         bSingleHit;
 };
 
 #endif // __OBJECT_H__

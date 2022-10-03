@@ -20,6 +20,7 @@ public:
                 void            SetHealth(orxFLOAT _fHealth);
                 orxFLOAT        GetHealth() const               {return fHealth;}
                 orxFLOAT        GetMaxHealth() const            {return fMaxHealth;}
+                orxFLOAT        GetHealDistance() const         {return fHealDistance;}
 
 
 protected:
@@ -31,12 +32,11 @@ protected:
                 void            Update(const orxCLOCK_INFO &_Info);
 
 
-                orxBOOL         bDead;
-
-
 private:
 
-                orxFLOAT        fHealth, fMaxHealth, fDamage;
+                orxU64          u64Loadout;
+                orxFLOAT        fHealth, fMaxHealth, fIncomingDamage, fRunSpeed, fHealDistance;
+                orxBOOL         bDead, bAction1Auto, bAction2Auto;
 };
 
 #endif // __CHARACTER_H__

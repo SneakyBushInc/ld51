@@ -15,6 +15,9 @@ class ld51 : public Scroll<ld51>
 {
 public:
 
+                orxVECTOR       vArenaTL, vArenaBR;
+                orxFLOAT        fDeadZone;
+
 
 private:
 

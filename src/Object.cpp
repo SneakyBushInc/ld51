@@ -7,7 +7,9 @@
 
 void Object::OnCreate()
 {
-    orxConfig_SetBool("IsObject", orxTRUE);
+    fDamage     = orxConfig_GetFloat("Damage");
+    fKnockback  = orxConfig_GetFloat("Knockback");
+    bSingleHit  = orxConfig_GetBool("SingleHit");
 }
 
 void Object::OnDelete()
@@ -16,9 +18,4 @@ void Object::OnDelete()
 
 void Object::Update(const orxCLOCK_INFO &_rstInfo)
 {
-}
-
-orxBOOL Object::OnShader(orxSHADER_EVENT_PAYLOAD &_rstPayload)
-{
-    return orxTRUE;
 }

@@ -25,18 +25,14 @@ void Player::OnDelete()
 
 void Player::Update(const orxCLOCK_INFO &_rstInfo)
 {
-    if(!bDead)
+    if(!IsDead())
     {
-        // Push config section
-        PushConfigSection();
-
         // Cycle?
         if(!bNew && orxInput_HasBeenActivated("Cycle"))
         {
             orxVECTOR vTemp;
             Player *poNewPlayer = ld51::GetInstance().CreateObject<Player>(GetModelName());
             poNewPlayer->SetHealth(GetHealth());
-            poNewPlayer->bDead = bDead;
             poNewPlayer->SetPosition(GetPosition(vTemp));
             poNewPlayer->SetScale(GetScale(vTemp));
             poNewPlayer->SetAnim(orxObject_GetCurrentAnim(GetOrxObject()), orxTRUE);
@@ -46,7 +42,7 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
         {
             // Select our input set
             const orxSTRING zInputSet = orxInput_GetCurrentSet();
-            orxInput_SelectSet(orxConfig_GetCurrentSection());
+            orxInput_SelectSet(GetModelName());
 
             // Revive?
             if(orxInput_HasBeenActivated("Revive"))
@@ -57,7 +53,6 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
                 GetPosition(vPos, orxTRUE);
                 Player *poBestTarget    = orxNULL;
                 orxFLOAT fBestDistance  = orxFLOAT_MAX;
-                orxFLOAT fHealDistance  = orxConfig_GetFloat("HealDistance");
 
                 for(Player *poTarget = roGame.GetNextObject<Player>();
                     poTarget;
@@ -68,7 +63,7 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
                         orxVECTOR vTargetPos;
                         poTarget->GetPosition(vTargetPos, orxTRUE);
                         orxFLOAT fDistance = orxVector_GetSquareDistance(&vPos, &vTargetPos);
-                        if(fDistance < fHealDistance)
+                        if(fDistance < GetHealDistance())
                         {
                             poTarget->Revive();
                         }
@@ -79,9 +74,6 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
             // Restore previous input set
             orxInput_SelectSet(zInputSet);
         }
-
-        // Pop config section
-        PopConfigSection();
     }
     if(!bNew)
     {

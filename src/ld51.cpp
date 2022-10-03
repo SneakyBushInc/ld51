@@ -93,11 +93,21 @@ orxSTATUS ld51::Init()
     // Push game section
     orxConfig_PushSection("Game");
 
+    // Get arena corners
+    orxConfig_GetListVector("ArenaCorners", 0, &vArenaTL);
+    orxConfig_GetListVector("ArenaCorners", 1, &vArenaBR);
+
+    // Get dead zone
+    fDeadZone = orxConfig_GetFloat("DeadZone");
+
     // Disable main viewport
     orxViewport_Enable(GetMainViewport(), orxFALSE);
 
     // Go to title
     CreateObject("Title");
+
+    // Disable warnings
+    orxDEBUG_ENABLE_LEVEL(orxDEBUG_LEVEL_OBJECT, orxFALSE);
 
     // Done!
     return orxSTATUS_SUCCESS;

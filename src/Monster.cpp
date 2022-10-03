@@ -16,10 +16,9 @@ void Monster::OnCreate()
     Character::OnCreate();
     u64Target           = orxU64_UNDEFINED;
     fTargetHysteresis   = orxConfig_GetFloat("TargetHysteresis");
-    orxConfig_SetBool("IsMonster", orxTRUE);
 
     // Disable our input set
-    orxInput_EnableSet(orxConfig_GetCurrentSection(), orxFALSE);
+    orxInput_EnableSet(GetModelName(), orxFALSE);
 }
 
 void Monster::OnDelete()
@@ -29,14 +28,11 @@ void Monster::OnDelete()
 
 void Monster::Update(const orxCLOCK_INFO &_rstInfo)
 {
-    if(!bDead)
+    if(!IsDead())
     {
-        // Push config section
-        PushConfigSection();
-
         // Select our input set
         const orxSTRING zInputSet = orxInput_GetCurrentSet();
-        orxInput_SelectSet(orxConfig_GetCurrentSection());
+        orxInput_SelectSet(GetModelName());
 
         // Select target
         orxVECTOR vMove = {};
@@ -61,9 +57,6 @@ void Monster::Update(const orxCLOCK_INFO &_rstInfo)
 
         // Restore previous input set
         orxInput_SelectSet(zInputSet);
-
-        // Pop config section
-        PopConfigSection();
     }
     Character::Update(_rstInfo);
 }
