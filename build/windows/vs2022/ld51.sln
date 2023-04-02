@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 13.00
 # Visual Studio 2022
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CypurrMenace", "CypurrMenace.vcxproj", "{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CypurrMenace", "CypurrMenace.vcxproj", "{20678DD6-3F59-6343-A0D0-70979BF25CB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,20 +11,26 @@ Global
 		Profile|Win32 = Profile|Win32
 		Release|x64 = Release|x64
 		Release|Win32 = Release|Win32
+		Bundle|x64 = Bundle|x64
+		Bundle|Win32 = Bundle|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Debug|x64.ActiveCfg = Debug|x64
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Debug|x64.Build.0 = Debug|x64
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Debug|Win32.Build.0 = Debug|Win32
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Profile|x64.ActiveCfg = Profile|x64
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Profile|x64.Build.0 = Profile|x64
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Profile|Win32.ActiveCfg = Profile|Win32
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Profile|Win32.Build.0 = Profile|Win32
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Release|x64.ActiveCfg = Release|x64
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Release|x64.Build.0 = Release|x64
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Release|Win32.ActiveCfg = Release|Win32
-		{03495DC7-2366-4B4C-9E4D-8C94A1C7F34C}.Release|Win32.Build.0 = Release|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Debug|x64.ActiveCfg = Debug|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Debug|x64.Build.0 = Debug|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Debug|Win32.Build.0 = Debug|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Profile|x64.ActiveCfg = Profile|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Profile|x64.Build.0 = Profile|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Profile|Win32.ActiveCfg = Profile|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Profile|Win32.Build.0 = Profile|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Release|x64.ActiveCfg = Release|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Release|x64.Build.0 = Release|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Release|Win32.ActiveCfg = Release|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Release|Win32.Build.0 = Release|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Bundle|x64.ActiveCfg = Bundle|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Bundle|x64.Build.0 = Bundle|x64
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Bundle|Win32.ActiveCfg = Bundle|Win32
+		{20678DD6-3F59-6343-A0D0-70979BF25CB0}.Bundle|Win32.Build.0 = Bundle|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

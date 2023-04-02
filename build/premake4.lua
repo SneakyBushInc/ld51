@@ -11,7 +11,8 @@ function initconfigurations ()
     {
         "Debug",
         "Profile",
-        "Release"
+        "Release",
+        "Bundle"
     }
 end
 
@@ -130,6 +131,10 @@ solution "ld51"
         links {"orxp"}
 
     configuration {"*Release*"}
+        flags {"Optimize", "NoRTTI"}
+        links {"orx"}
+
+    configuration {"*Bundle*"}
         flags {"Optimize", "NoRTTI"}
         links {"orx"}
 
@@ -269,6 +274,9 @@ project "CypurrMenace"
         ["config"] = {"**.ini"}
     }
 
+
+    configuration {"*Bundle*"}
+        debugargs {"-b"}
 
 -- Linux
 
