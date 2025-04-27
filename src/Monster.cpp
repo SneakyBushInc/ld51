@@ -18,7 +18,7 @@ void Monster::OnCreate()
     fTargetHysteresis   = orxConfig_GetFloat("TargetHysteresis");
 
     // Disable our input set
-    orxInput_EnableSet(GetModelName(), orxFALSE);
+    orxInput_EnableSet(GetName(), orxFALSE);
 }
 
 void Monster::OnDelete()
@@ -32,7 +32,7 @@ void Monster::Update(const orxCLOCK_INFO &_rstInfo)
     {
         // Select our input set
         const orxSTRING zInputSet = orxInput_GetCurrentSet();
-        orxInput_SelectSet(GetModelName());
+        orxInput_SelectSet(GetName());
 
         // Select target
         orxVECTOR vMove = {};

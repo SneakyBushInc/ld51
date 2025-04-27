@@ -12,9 +12,7 @@
 #include "Monster.h"
 #include "Player.h"
 
-#define orxBUNDLE_IMPL
-#include "orxBundle.h"
-#undef orxBUNDLE_IMPL
+#include "orxExtensions.h"
 
 #ifdef __orxMSVC__
 
@@ -108,12 +106,7 @@ void ld51::Update(const orxCLOCK_INFO &_rstInfo)
  */
 orxSTATUS ld51::Init()
 {
-    // Is processing a new bundle?
-    if(orxBundle_IsProcessing())
-    {
-        // Done!
-        return orxSTATUS_SUCCESS;
-    }
+    InitExtensions();
 
     // Register event handler
     orxEvent_AddHandler(orxEVENT_TYPE_SYSTEM, EventHandler);
@@ -129,7 +122,7 @@ orxSTATUS ld51::Init()
     fDeadZone = orxConfig_GetFloat("DeadZone");
 
     // Disable main viewport
-    orxViewport_Enable(GetMainViewport(), orxFALSE);
+    orxViewport_Enable(orxViewport_CreateFromConfig("MainViewport"), orxFALSE);
 
     // Go to title
     CreateObject("Title");
@@ -153,8 +146,7 @@ orxSTATUS ld51::Run()
  */
 void ld51::Exit()
 {
-    // Exit from bundle support
-    orxBundle_Exit();
+    ExitExtensions();
 
     // Let orx clean all our mess automatically. :)
 }
@@ -189,12 +181,7 @@ orxU32 ld51::GetPlayerCount() const
  */
 orxSTATUS ld51::Bootstrap() const
 {
-    // Initialize bundle resource type
-    orxBundle_Init();
-
-    // Add config storage to find the initial config file
-    orxResource_AddStorage(orxCONFIG_KZ_RESOURCE_GROUP, orxBUNDLE_KZ_RESOURCE_STORAGE, orxFALSE);
-    orxResource_AddStorage(orxCONFIG_KZ_RESOURCE_GROUP, "../data/config", orxFALSE);
+    BootstrapExtensions();
 
     // Return orxSTATUS_FAILURE to prevent orx from loading the default config file
     return orxSTATUS_SUCCESS;

@@ -27,8 +27,8 @@ protected:
 
                 void            OnCreate();
                 void            OnDelete();
-                orxBOOL         OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal);
-                orxBOOL         OnSeparate(ScrollObject *_poCollider);
+                void            OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal);
+                void            OnSeparate(ScrollObject *_poCollider);
                 void            Update(const orxCLOCK_INFO &_Info);
 
                 orxBOOL         bPlayer, bAttract;

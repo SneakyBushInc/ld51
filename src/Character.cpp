@@ -56,7 +56,7 @@ void Character::OnCreate()
     fIncomingDamage = orxFLOAT_0;
 
     // Enable our input set
-    orxInput_EnableSet(GetModelName(), orxTRUE);
+    orxInput_EnableSet(GetName(), orxTRUE);
 }
 
 void Character::OnDelete()
@@ -64,7 +64,7 @@ void Character::OnDelete()
     Object::OnDelete();
 }
 
-orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal)
+void Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, orxBODY_PART *_pstColliderPart, const orxVECTOR &_rvPosition, const orxVECTOR &_rvNormal)
 {
     if(!IsDead())
     {
@@ -114,11 +114,9 @@ orxBOOL Character::OnCollide(ScrollObject *_poCollider, orxBODY_PART *_pstPart, 
             }
         }
     }
-
-    return Object::OnCollide(_poCollider, _pstPart, _pstColliderPart, _rvPosition, _rvNormal);
 }
 
-orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
+void Character::OnSeparate(ScrollObject *_poCollider)
 {
     if(!IsDead())
     {
@@ -128,7 +126,6 @@ orxBOOL Character::OnSeparate(ScrollObject *_poCollider)
             fIncomingDamage = orxMAX(fIncomingDamage - poObject->GetDamage(), orxFLOAT_0);
         }
     }
-    return Object::OnSeparate(_poCollider);
 }
 
 void Character::Update(const orxCLOCK_INFO &_rstInfo)
@@ -151,7 +148,7 @@ void Character::Update(const orxCLOCK_INFO &_rstInfo)
 
             // Select our input set
             const orxSTRING zInputSet = orxInput_GetCurrentSet();
-            orxInput_SelectSet(GetModelName());
+            orxInput_SelectSet(GetName());
 
             // Update movement
             const orxSTRING zAnim = "Idle";

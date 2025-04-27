@@ -33,7 +33,7 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
             if(!bNew && orxInput_HasBeenActivated("Cycle"))
             {
                 orxVECTOR vTemp;
-                Player *poNewPlayer = ld51::GetInstance().CreateObject<Player>(GetModelName());
+                Player *poNewPlayer = ld51::GetInstance().CreateObject<Player>(GetName());
                 poNewPlayer->SetHealth(GetHealth());
                 poNewPlayer->SetPosition(GetPosition(vTemp));
                 poNewPlayer->SetScale(GetScale(vTemp));
@@ -44,7 +44,7 @@ void Player::Update(const orxCLOCK_INFO &_rstInfo)
             {
                 // Select our input set
                 const orxSTRING zInputSet = orxInput_GetCurrentSet();
-                orxInput_SelectSet(GetModelName());
+                orxInput_SelectSet(GetName());
 
                 // Revive?
                 if(orxInput_HasBeenActivated("Revive"))

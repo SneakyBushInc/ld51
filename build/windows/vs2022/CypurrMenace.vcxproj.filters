@@ -2,45 +2,36 @@
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{852B10E9-8E51-F04C-9E80-0972D15CDCBF}</UniqueIdentifier>
+      <UniqueIdentifier>{BC916D83-6CF4-CF44-85C2-44533F447373}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{EF7F97AD-364D-3141-9ADC-D7F0FAEE6B41}</UniqueIdentifier>
+      <UniqueIdentifier>{02A98328-82A7-A042-8DC6-C6A9F56D66ED}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Scroll">
-      <UniqueIdentifier>{DEC19C0D-BE78-4C40-A9CF-3832D22FFBF2}</UniqueIdentifier>
+    <Filter Include="include\extensions">
+      <UniqueIdentifier>{8F4CD3C4-97B8-7147-A6A9-D902B6259637}</UniqueIdentifier>
     </Filter>
-    <Filter Include="inline">
-      <UniqueIdentifier>{82929E72-9068-F547-A809-B31D84103FDE}</UniqueIdentifier>
+    <Filter Include="include\extensions\lz4">
+      <UniqueIdentifier>{20D56069-4B01-234C-8274-E6EB5AB4A90D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="bundle">
-      <UniqueIdentifier>{368DF323-8ADC-C143-A376-35879A260FE9}</UniqueIdentifier>
+    <Filter Include="include\extensions\Scroll">
+      <UniqueIdentifier>{BEE944C4-931E-6E41-A0A8-1605E8EF20ED}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build">
+      <UniqueIdentifier>{A3EBF4E5-F576-C541-AE77-2C0CE2090D97}</UniqueIdentifier>
     </Filter>
     <Filter Include="config">
-      <UniqueIdentifier>{0D66A9F3-9595-9A4E-A259-6F9C224EBA63}</UniqueIdentifier>
+      <UniqueIdentifier>{CB2DD7AE-FE88-2142-A033-AD100D496F2D}</UniqueIdentifier>
     </Filter>
     <Filter Include="data">
-      <UniqueIdentifier>{FC36CB78-868D-B246-8CD1-0DAF33560F88}</UniqueIdentifier>
+      <UniqueIdentifier>{017EAF32-C76F-B647-9E3B-71F750E91B25}</UniqueIdentifier>
     </Filter>
     <Filter Include="data\resource">
-      <UniqueIdentifier>{23FF7B42-61CD-A849-B2D8-53F797C63EFA}</UniqueIdentifier>
+      <UniqueIdentifier>{EB27FDD4-6D35-B04D-9F3D-8289A1F1D649}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\Scroll\Scroll.inl">
-      <Filter>inline</Filter>
-    </None>
-    <None Include="..\..\..\include\Scroll\ScrollBase.inl">
-      <Filter>inline</Filter>
-    </None>
-    <None Include="..\..\..\include\Scroll\ScrollEd.inl">
-      <Filter>inline</Filter>
-    </None>
-    <None Include="..\..\..\include\Scroll\ScrollObject.inl">
-      <Filter>inline</Filter>
-    </None>
-    <None Include="..\..\..\include\orxBundleData.inc">
-      <Filter>bundle</Filter>
+    <None Include="..\..\premake4.lua">
+      <Filter>build</Filter>
     </None>
     <None Include="..\..\..\data\config\character.ini">
       <Filter>config</Filter>
@@ -48,19 +39,22 @@
     <None Include="..\..\..\data\config\CreationTemplate.ini">
       <Filter>config</Filter>
     </None>
+    <None Include="..\..\..\data\config\CypurrMenace.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\CypurrMenaced.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\CypurrMenacep.ini">
+      <Filter>config</Filter>
+    </None>
+    <None Include="..\..\..\data\config\ExtensionTemplate.ini">
+      <Filter>config</Filter>
+    </None>
     <None Include="..\..\..\data\config\font.ini">
       <Filter>config</Filter>
     </None>
     <None Include="..\..\..\data\config\gameover.ini">
-      <Filter>config</Filter>
-    </None>
-    <None Include="..\..\..\data\config\ld51.ini">
-      <Filter>config</Filter>
-    </None>
-    <None Include="..\..\..\data\config\ld51d.ini">
-      <Filter>config</Filter>
-    </None>
-    <None Include="..\..\..\data\config\ld51p.ini">
       <Filter>config</Filter>
     </None>
     <None Include="..\..\..\data\config\monster.ini">
@@ -98,23 +92,29 @@
     <ClInclude Include="..\..\..\include\Object.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\orxBundle.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\Player.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Scroll\Scroll.h">
-      <Filter>include\Scroll</Filter>
+    <ClInclude Include="..\..\..\include\extensions\orxBundle.h">
+      <Filter>include\extensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Scroll\ScrollBase.h">
-      <Filter>include\Scroll</Filter>
+    <ClInclude Include="..\..\..\include\extensions\orxExtensions.h">
+      <Filter>include\extensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Scroll\ScrollEd.h">
-      <Filter>include\Scroll</Filter>
+    <ClInclude Include="..\..\..\include\extensions\lz4\lz4.h">
+      <Filter>include\extensions\lz4</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Scroll\ScrollObject.h">
-      <Filter>include\Scroll</Filter>
+    <ClInclude Include="..\..\..\include\extensions\lz4\lz4hc.h">
+      <Filter>include\extensions\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\extensions\Scroll\Scroll.h">
+      <Filter>include\extensions\Scroll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\extensions\Scroll\ScrollBase.h">
+      <Filter>include\extensions\Scroll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\extensions\Scroll\ScrollObject.h">
+      <Filter>include\extensions\Scroll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
